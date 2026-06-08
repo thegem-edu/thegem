@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import ClientDashboard from "./ClientDashboard";
+import AdminDashboard from "./AdminDashboard";
 
 const ADMIN_EMAIL = "corev125@gmail.com";
 
@@ -37,42 +38,25 @@ export default function App() {
     setLoading(false);
   };
 
-  const handleLogout = async () => {
-    await signOut(auth);
-  };
-
   if (!authReady) {
     return (
       <div className="min-h-screen bg-gem-navy flex items-center justify-center">
-        <div className="text-gem-gold text-lg">로딩 중...</div>
+        <div className="text-gem-gold text-lg tracking-widest">로딩 중...</div>
       </div>
     );
   }
 
+  // 관리자
   if (user && user.email === ADMIN_EMAIL) {
-    return (
-      <div className="min-h-screen bg-gem-navy text-white flex flex-col items-center justify-center gap-6 p-8">
-        <h1 className="text-3xl font-bold text-gem-gold tracking-widest">THE GEM</h1>
-        <p className="text-gray-300 text-sm">관리자 대시보드</p>
-        <div className="bg-white/5 border border-gem-gold/30 rounded-2xl p-6 w-full max-w-sm text-center">
-          <p className="text-gem-gold font-semibold mb-1">대표님 관리 화면</p>
-          <p className="text-gray-400 text-sm">{user.email}</p>
-          <p className="text-gray-500 text-xs mt-3">관리자 기능은 다음 단계에서 제작됩니다</p>
-        </div>
-        <button
-          onClick={handleLogout}
-          className="text-gray-500 text-sm underline hover:text-gray-300"
-        >
-          로그아웃
-        </button>
-      </div>
-    );
+    return <AdminDashboard user={user} />;
   }
 
+  // 클라이언트
   if (user) {
     return <ClientDashboard user={user} />;
   }
 
+  // 로그인 화면
   return (
     <div className="min-h-screen bg-gem-navy flex items-center justify-center px-6">
       <div className="w-full max-w-sm flex flex-col gap-6">
