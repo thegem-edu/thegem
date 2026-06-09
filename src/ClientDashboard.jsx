@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";import RUBY_CURRICULUM from './curriculum/ruby.js';
+import ALEXANDRITE_CURRICULUM from './curriculum/alexandrite.js';
+import PARAIBA_CURRICULUM from './curriculum/paraiba.js';
+import EMERALD_CURRICULUM from './curriculum/emerald.js';
 import { auth, db } from "./firebase";
 import { doc, getDoc, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "firebase/firestore";
 
@@ -255,8 +258,7 @@ const DIAMOND_CURRICULUM = [
 ];
 
 // gemType별 커리큘럼 맵
-const CURRICULUM_MAP = { diamond: DIAMOND_CURRICULUM };
-
+const CURRICULUM_MAP = { diamond: DIAMOND_CURRICULUM, ruby: RUBY_CURRICULUM, alexandrite: ALEXANDRITE_CURRICULUM, paraiba: PARAIBA_CURRICULUM, emerald: EMERALD_CURRICULUM };
 function getCurriculumWeek(gemType, weekNumber) {
   const data = CURRICULUM_MAP[gemType];
   if (data) return data.find(w => w.weekNumber === weekNumber) || null;
