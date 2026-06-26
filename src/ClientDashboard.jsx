@@ -433,10 +433,18 @@ function MissionSection({data}){
 
 // ── Q&A ──────────────────────────────────────────────────────
 function getSubmitStatus(){
-  const day=new Date().getDay();
-  if(day===2)return{canSubmit:true,notice:"today"};
+  const now=new Date();
+  const day=now.getDay();
+  const hour=now.getHours();
+  const minute=now.getMinutes();
+  // 제출 가능: 일(0) 전체 + 월(1) 전체 + 화(2) 자정(23:59)까지
+  const isTuesdayBeforeMidnight=day===2&&(hour<23||(hour===23&&minute<=59));
+  const canSubmit=day===0||day===1||isTuesdayBeforeMidnight;
+  // 답변 대기: 수(3) + 목(4) 오전
   if(day===3)return{canSubmit:false,notice:"waiting"};
+  // 답변일: 목(4)
   if(day===4)return{canSubmit:false,notice:"answerDay"};
+  if(canSubmit)return{canSubmit:true,notice:"today"};
   return{canSubmit:false,notice:"nextTuesday"};
 }
 function formatDate(timestamp){

@@ -36,6 +36,7 @@ function AddClientModal({onClose, onSuccess}){
   const[gemType,setGemType]=useState("diamond");
   const[loading,setLoading]=useState(false);
   const[error,setError]=useState("");
+  const[showPw,setShowPw]=useState(false);
 
   const handleAdd=async()=>{
     if(!childName.trim()||!email.trim()||!password.trim()){
@@ -114,9 +115,15 @@ function AddClientModal({onClose, onSuccess}){
         {/* 비밀번호 */}
         <div>
           <SectionLabel>임시 비밀번호</SectionLabel>
-          <input className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-gem-gold/50"
-            placeholder="6자 이상" type="password"
-            value={password} onChange={e=>setPassword(e.target.value)}/>
+          <div className="relative">
+            <input className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-gem-gold/50 pr-16"
+              placeholder="6자 이상" type={showPw ? "text" : "password"}
+              value={password} onChange={e=>setPassword(e.target.value)}/>
+            <button type="button" onClick={()=>setShowPw(!showPw)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 text-xs transition-colors">
+              {showPw ? "숨기기" : "보기"}
+            </button>
+          </div>
         </div>
 
         {error&&<p className="text-xs text-red-400/80">{error}</p>}
